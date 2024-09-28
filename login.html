@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Institution Login/Registration</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        .form-container {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        .toggle-form {
+            cursor: pointer;
+            color: #007bff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 form-container">
+            <h2 class="text-center" id="formTitle">Login to Your Account</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input type="email" class="form-control" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="text-center">Don't have an account? <span class="toggle-form" id="showRegister">Register Here</span></p>
+            </form>
+
+            <form id="registrationForm" style="display: none;">
+                <h2 class="text-center" id="formTitle">Create an Account</h2>
+                <div class="form-group">
+                    <label for="regEmail">Email:</label>
+                    <input type="email" class="form-control" id="regEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="regPassword">Password:</label>
+                    <input type="password" class="form-control" id="regPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="institutionName">Institution Name:</label>
+                    <input type="text" class="form-control" id="institutionName" required>
+                </div>
+                <button type="submit" class="btn btn-success btn-block">Register</button>
+                <p class="text-center">Already have an account? <span class="toggle-form" id="showLogin">Login Here</span></p>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#showRegister').click(function() {
+            $('#loginForm').hide();
+            $('#registrationForm').show();
+            $('#formTitle').text('Create an Account');
+        });
+        
+        $('#showLogin').click(function() {
+            $('#registrationForm').hide();
+            $('#loginForm').show();
+            $('#formTitle').text('Login to Your Account');
+        });
+
+        // Handle form submissions (this is just a placeholder for actual backend integration)
+        $('#loginForm').submit(function(e) {
+            e.preventDefault();
+            alert('Logging in...');
+            // Here, you would typically send a request to your server to log in the user
+        });
+
+        $('#registrationForm').submit(function(e) {
+            e.preventDefault();
+            alert('Registering...');
+            // Here, you would typically send a request to your server to register the user
+        });
+    });
+</script>
+
+</body>
+</html>
