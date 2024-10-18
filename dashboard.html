@@ -1,128 +1,245 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Institution Inspection Dashboard</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <title>INSPIRO Institution Auditor Dashboard</title>
     <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
         .sidebar {
-            background: #1b76d1;
-            color: white;
+            background-color: #007bff;
+            color: #fff;
             height: 100vh;
+            position: fixed;
             padding-top: 20px;
         }
-        .sidebar a {
-            color: white;
+
+        .sidebar .nav-link {
+            color: #fff;
+            margin-bottom: 10px;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #0560c9;
         }
-        .sidebar a:hover {
-            text-decoration: underline;
+
+        .sidebar .nav-link:hover {
+            background-color: #044fa4; /* Dark Blue color on hover */
+            color: #fff;
         }
-        .kpi {
-            background: #fff;
-            border: 1px solid #ddd;
+
+        .main-content {
+            margin-left: 260px;
             padding: 20px;
-            text-align: center;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .kpi i {
-            font-size: 30px;
-            color: #007bff;
+
+        .card-title {
+            font-size: 1.2rem;
+            font-weight: bold;
         }
-        .chart-container {
-            position: relative;
-            margin: auto;
-            height: 40vh;
-            width: 100%;
+
+        .progress {
+            height: 20px;
+        }
+
+        .widget-card {
+            background-color: #e9ecef;
+        }
+
+        .notification-list {
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                height: auto;
+                position: static;
+                width: 100%;
+                padding-top: 0;
+                text-align: center;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+            }
+
+            .sidebar .nav-link {
+                display: inline-block;
+                margin: 5px 10px;
+            }
+
+            .sidebar img {
+                width: 60px;
+                height: 60px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="d-flex flex-wrap">
-        <!-- Sidebar -->
-        <nav class="sidebar col-12 col-md-3 col-lg-2 p-3">
-            <h4>Institution Dashboard</h4>
-            <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Historical Data</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Report Sheet</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">User Feedback</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Resources</a></li>
-            </ul>
+    <!-- Sidebar -->
+    <div class="sidebar d-flex flex-column align-items-center justify-content-center text-center p-3">
+        <img src="https://cdn.pixabay.com/photo/2024/08/23/17/43/graduate-8992446_640.png" alt="Institution Logo"
+            class="rounded-circle mb-2" height="100px">
+        <h4>Institution Name</h4>
+        <p>AI-Driven Institution Inspection</p>
+        <nav class="nav flex-column w-100">
+            <a class="nav-link active" href="#">Home</a>
+            <a class="nav-link" href="#">Institution Profile</a>
+            <a class="nav-link" href="#">Scheduled Inspections</a>
+            <a class="nav-link" href="#">Inspection Reports</a>
+            <a class="nav-link" href="#">Settings</a>
         </nav>
-
-        <!-- Main Content -->
-        <main class="content col-12 col-md-9 col-lg-10 p-4">
-            <header class="d-flex flex-column flex-md-row justify-content-between align-items-center mb-4">
-                <h1 class="h4">St.Vincent Pallotti</h1>
-                <p class="tagline text-muted">Empowering Excellence in Education</p>
-            </header>
-
-            <div class="row mb-4">
-                <div class="col-12 col-md-6 col-lg-3 mb-3">
-                    <div class="kpi">
-                        <i class="fas fa-graduation-cap"></i>
-                        <h5>Inspection Score</h5>
-                        <div id="inspectionScore">85%</div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3 mb-3">
-                    <div class="kpi">
-                        <i class="fas fa-check-circle"></i>
-                        <h5>Compliance Rate</h5>
-                        <div id="complianceRate">90%</div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3 mb-3">
-                    <div class="kpi">
-                        <i class="fas fa-smile"></i>
-                        <h5>Student Satisfaction</h5>
-                        <div id="userSatisfaction">75%</div>
-                    </div>
-                </div>
-                <div class="col-12 col-md-6 col-lg-3 mb-3">
-                    <div class="kpi">
-                        <i class="fas fa-clock"></i>
-                        <h5>Avg Response Time</h5>
-                        <div id="averageResponseTime">5 days</div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h2>Data Visualization</h2>
-                    <div class="chart-container">
-                        <canvas id="myChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row mb-4">
-                <div class="col-12">
-                    <h2>User Interaction Insights</h2>
-                    <p>Number of Feedback Submissions: <span id="feedbackCount">120</span></p>
-                    <p>User Engagement Rate: <span id="engagementRate">65</span>%</p>
-                    <p>Popular Resources Accessed: <span id="popularResources">300</span></p>
-                </div>
-            </div>
-
-
-            </div>
-        </main>
+        <a href="#" class="btn btn-danger mt-3 mb-3">Sign Out</a>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="container mt-5">
+            <!-- Welcome Message -->
+            <div class="card mb-4">
+                <div class="card-body text-center bg-primary text-white">
+                    <h2>Welcome back, [Institution Name]</h2>
+                </div>
+            </div>
+            
+            <!-- Dashboard Widgets -->
+            <div class="row">
+                <!-- Inspection Summary -->
+                <div id="Institution Summary" class="col-lg-6 col-md-12 mb-4">
+                    <div class="card widget-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Institution Summary</h5>
+                            <div class="d-flex align-items-center flex-column flex-md-row">
+                                <img src="https://cdn.pixabay.com/photo/2024/08/23/17/43/graduate-8992446_640.png"
+                                    class="rounded-circle mb-2 mb-md-0 mr-md-3 " alt="Institution Logo" height="100px">
+                                <div>
+                                    <h6>[Institution Name]</h6>
+                                    <p>[Location]</p>
+                                    <div class="progress">
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 80%;"
+                                            aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">80% Complete</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <!-- Inspection Alerts -->
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="card widget-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Upcoming Inspections</h5>
+                            <div class="card bg-light mb-2">
+                                <div class="card-body p-2 text-left">
+                                    <h6>Building Safety Audit</h6>
+                                    <p>Scheduled: 20th Oct</p>
+                                    <a href="#" class="btn btn-sm btn-primary">View Details</a>
+                                </div>
+                            </div>
+                            <div class="card bg-light mb-2">
+                                <div class="card-body p-2 text-left">
+                                    <h6>Electrical Compliance Check</h6>
+                                    <p>Scheduled: 25th Oct</p>
+                                    <a href="#" class="btn btn-sm btn-primary">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Overview -->
+            <div class="row text-light">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card dashboard-card text-center p-3 bg-primary">
+                        <div class="card-body">
+                            <h6 class="overview-title">Total Inspections Conducted</h6>
+                            <h3>25</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card dashboard-card text-center p-3 bg-primary">
+                        <div class="card-body">
+                            <h6 class="overview-title">Pending Reports</h6>
+                            <h3>3</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card dashboard-card text-center p-3 bg-primary">
+                        <div class="card-body">
+                            <h6 class="overview-title">Issues Resolved</h6>
+                            <h3>18</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="card dashboard-card text-center p-3 bg-primary">
+                        <div class="card-body">
+                            <h6 class="overview-title">New Inspections Scheduled</h6>
+                            <h3>4</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Inspection Status Tracker -->
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="card widget-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Inspection Status Tracker</h5>
+                            <ul class="list-group">
+                                <li class="list-group-item">Initial Assessment <span class="badge badge-success">Completed</span></li>
+                                <li class="list-group-item">Site Audit <span class="badge badge-warning">In Progress</span></li>
+                                <li class="list-group-item">Report Generation <span class="badge badge-secondary">Pending</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Task Reminders -->
+                <div class="col-lg-6 col-md-12 mb-4">
+                    <div class="card widget-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Task Reminders</h5>
+                            <ul class="task-list">
+                                <li>🔔 Upload inspection photos by Oct 19</li>
+                                <li>🔔 Complete safety checklist review</li>
+                                <li>🔔 Update inspection report template</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="col-lg-6 mb-4">
+                <div class="card">
+                    <div class="card-header"><h5>Notifications</h5></div>
+                    <div class="card-body notification-list">
+                        <ul class="list-group">
+                            <li class="list-group-item">New inspection report uploaded for XYZ Institute.</li>
+                            <li class="list-group-item">Reminder: Complete the electrical safety audit by 22nd October.</li>
+                            <li class="list-group-item">Issue #13 has been resolved.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="script.js"></script>
 </body>
+
 </html>
-
-
-
