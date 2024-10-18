@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>INSPIRO - Comprehensive Inspection Chatbot/Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h2 {
+            color: #007bff;
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        .progress-bar {
+            background-color: #007bff;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <h2>INSPIRO Comprehensive Inspection Chatbot</h2>
+                <p>Complete guided inspection process</p>
+            </div>
+
+            <div class="progress mb-4">
+                <div class="progress-bar" role="progressbar" style="width: 0%;" id="progressBar"></div>
+            </div>
+
+            <form id="inspectionForm">
+                <!-- Step 1: Institution Details -->
+                <div class="form-step active">
+                    <div class="mb-3">
+                        <label for="institutionName" class="form-label">Institution Name</label>
+                        <input type="text" class="form-control" id="institutionName" placeholder="Enter institution name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="inspectionType" class="form-label">Inspection Type</label>
+                        <select class="form-select" id="inspectionType">
+                            <option selected>Select inspection type</option>
+                            <option value="Full Inspection">Full Inspection</option>
+                            <option value="Safety Audit">Safety Audit</option>
+                            <option value="Compliance Check">Compliance Check</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Next</button>
+                </div>
+
+                <!-- Step 2: Infrastructure & Facility -->
+                <div class="form-step">
+                    <div class="mb-3">
+                        <label class="form-label">Building Condition</label>
+                        <select class="form-select">
+                            <option selected>Select Condition</option>
+                            <option>Excellent</option>
+                            <option>Good</option>
+                            <option>Fair</option>
+                            <option>Poor</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="buildingProof" class="form-label">Upload Proof (Photos, Reports)</label>
+                        <input type="file" class="form-control" id="buildingProof" multiple>
+                    </div>
+                    <div class="mb-3">
+                        <label for="utilitiesStatus" class="form-label">Utilities Availability</label>
+                        <input type="text" class="form-control" id="utilitiesStatus" placeholder="Water, electricity, etc.">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Upload Utility Proof (Invoices, Bills)</label>
+                        <input type="file" class="form-control" multiple>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Security Measures</label>
+                        <textarea class="form-control" rows="3" placeholder="Describe security measures"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Previous</button>
+                    <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Next</button>
+                </div>
+
+                <!-- Step 3: Safety & Compliance -->
+                <div class="form-step">
+                    <div class="mb-3">
+                        <label for="fireSafety" class="form-label">Fire Safety Measures</label>
+                        <textarea class="form-control" id="fireSafety" rows="3" placeholder="Describe fire safety measures"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="fireSafetyProof" class="form-label">Upload Fire Safety Certificates</label>
+                        <input type="file" class="form-control" id="fireSafetyProof" multiple>
+                    </div>
+                    <div class="mb-3">
+                        <label for="legalCompliance" class="form-label">Legal Compliance Documents</label>
+                        <input type="file" class="form-control" id="legalCompliance" multiple>
+                    </div>
+                    <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Previous</button>
+                    <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Next</button>
+                </div>
+
+                <!-- Step 4: Operational Data -->
+                <div class="form-step">
+                    <div class="mb-3">
+                        <label for="maintenanceLogs" class="form-label">Maintenance Logs</label>
+                        <input type="file" class="form-control" id="maintenanceLogs" multiple>
+                    </div>
+                    <div class="mb-3">
+                        <label for="equipmentStatus" class="form-label">Equipment & Machinery Condition</label>
+                        <textarea class="form-control" id="equipmentStatus" rows="3" placeholder="Describe condition"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="equipmentProof" class="form-label">Upload Proof (Maintenance Reports, Photos)</label>
+                        <input type="file" class="form-control" id="equipmentProof" multiple>
+                    </div>
+                    <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Previous</button>
+                    <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Next</button>
+                </div>
+
+                <!-- Step 5: IT & Digital Infrastructure -->
+                <div class="form-step">
+                    <div class="mb-3">
+                        <label for="networkSystems" class="form-label">Network & IT Systems</label>
+                        <textarea class="form-control" id="networkSystems" rows="3" placeholder="Describe network infrastructure"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="itProof" class="form-label">Upload IT Network Diagrams, Configurations</label>
+                        <input type="file" class="form-control" id="itProof" multiple>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dataSecurity" class="form-label">Data Security Measures</label>
+                        <textarea class="form-control" id="dataSecurity" rows="3" placeholder="Describe data protection"></textarea>
+                    </div>
+                    <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Previous</button>
+                    <button type="button" class="btn btn-primary w-100" onclick="nextStep()">Next</button>
+                </div>
+
+                <!-- Step 6: Feedback & Additional Information -->
+                <div class="form-step">
+                    <div class="mb-3">
+                        <label for="staffFeedback" class="form-label">Staff Feedback</label>
+                        <textarea class="form-control" id="staffFeedback" rows="4" placeholder="Input feedback from staff"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="uploadDocuments" class="form-label">Upload Additional Documents</label>
+                        <input type="file" class="form-control" id="uploadDocuments" multiple>
+                    </div>
+                    <button type="button" class="btn btn-secondary w-100 mb-2" onclick="prevStep()">Previous</button>
+                    <button type="submit" class="btn btn-success w-100">Submit Inspection</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 0;
+        const formSteps = document.querySelectorAll(".form-step");
+        const progressBar = document.getElementById("progressBar");
+
+        function updateProgressBar() {
+            const stepPercentage = (currentStep / (formSteps.length - 1)) * 100;
+            progressBar.style.width = `${stepPercentage}%`;
+        }
+
+        function showStep(step) {
+            formSteps.forEach((formStep, index) => {
+                formStep.classList.toggle("active", index === step);
+            });
+            updateProgressBar();
+        }
+
+        function nextStep() {
+            if (currentStep < formSteps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        document.getElementById("inspectionForm").addEventListener("submit", function (event) {
+            event.preventDefault();
+            alert("Inspection Submitted Successfully!");
+        });
+    </script>
+</body>
+
+</html>
